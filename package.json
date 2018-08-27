@@ -1,10 +1,14 @@
 {
   "name": "proxy-switcher",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "macos上一个代理切换的工具",
   "main": "index.js",
   "bin": {
     "proxys": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dzjwan521/proxy-switcher"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
