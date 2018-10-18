@@ -1,6 +1,11 @@
-# node命令行开发
+# 终端代理切换
 
-> 目前只支持macOS
+> 目前只支持macOS,windows的话使用这样的命令 ```setx 变量名 "代理地址" ```
+```
+//例如
+setx http_proxy "127.0.0.1"
+setx https_proxy "127.0.0.1"
+```
 ### 使用方法
 
 Usage: proxys [options] [command]

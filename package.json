@@ -1,6 +1,6 @@
 {
   "name": "proxy-switcher",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "macos上一个代理切换的工具",
   "main": "index.js",
   "bin": {
@@ -13,7 +13,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["macOS","代理切换"],
+  "keywords": [
+    "macOS",
+    "代理切换"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
