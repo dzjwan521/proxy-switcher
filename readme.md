@@ -1,6 +1,6 @@
 # 终端代理切换
 
-> 目前只支持macOS,windows的话使用这样的命令 ```setx 变量名 "代理地址" ```
+> 目前只支持macOS,windows的话使用这样的命令 ```setx 变量名 "代理地址" ``` or ```set 变量名 "代理地址" ```
 ```
 //例如
 setx http_proxy "127.0.0.1"
@@ -12,7 +12,7 @@ Usage: proxys [options] [command]
 
   Options:
 
-    -v, --version  output the version number
+    -v, --version  output the version number    
     -l, --list     从配置文件列出已存储的列表
     -y, --yes      默认回复yes
     -h, --help     output usage information
@@ -20,7 +20,8 @@ Usage: proxys [options] [command]
   Commands:
 
     clean          清除代理
+    show           显示当前代理
     init           初始化
     add [url]      设置url为代理,并存储到配置文件
-    rm [url]       设置url为代理
+    rm [url]       从配置文件删除该url
 

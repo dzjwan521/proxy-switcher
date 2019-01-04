@@ -16,7 +16,7 @@ const {
 } = require('./util/fileHandle')
 const fullText = require('./util/fullText')
 const deleteProxy = require('./util/deleteProxy')
-const bashProfile = os.homedir() + '/.bashProfile'
+const bashProfile = os.homedir() + '/.bash_profile'
 let conf = require('./conf')
 const path = require('path')
 const pkg = require('./package')
@@ -46,6 +46,18 @@ program
       }
     })
   })
+
+
+// 显示代理
+program
+.command('show')
+.description('显示当前代理')
+.action(function () {
+  readFile(bashProfile, data => {
+      var url = showProxy(data)
+      success('当前代理设置为:',url)
+  })
+})
 
 // 初始化或生成默认代理
 program
@@ -106,7 +118,30 @@ program
         })
       })
     } else if (program.list) {
-      warning('选中你想要设置的代理')
+      let list = require('./conf').list  
+      const promptList = [{
+            type: 'list',
+            message: '选中你想要设置的代理:',
+            name: 'url',
+            choices: list
+        }];
+        inquirer.prompt(promptList).then(answers => {
+            let url = answers.url
+            readFile(bashProfile, data => {
+                let str = deleteProxy(data)
+                writeFile(bashProfile, str, () => {
+                    success('代理清除成功...')
+                    appendFile(bashProfile, fullText(url), () => {
+                        exec('source ' + bashProfile, function (err, stdout, stderr) {
+                        if (err) throw err
+                        if (stderr) throw stderr
+                        success('成功写入代理 %s', url)
+                        // console.log('rmdir %s', oDir);
+                        })
+                    })
+                })
+            })
+        })
     } else {
       err('缺少参数，使用proxys --help查看帮助')
     }
@@ -128,10 +163,41 @@ program
         success('删除成功 %s', url)
       })
     } else if (program.list) {
-      warning('选中你想要删除的代理')
+        let list = require('./conf').list  
+        const promptList = [{
+              type: 'list',
+              message: '选中你想要从列表删除的代理:',
+              name: 'url',
+              choices: list
+          }];
+          inquirer.prompt(promptList).then(answers => {
+            url = answers.url
+            readFile(path.resolve(__dirname, './conf.json'), function (data) {
+                let data2 = JSON.parse(data)       
+                let i = data2.list.indexOf(url)
+                if (i !== -1) data2.list.splice(i, 1)
+                writeFile(path.resolve(__dirname, './conf.json'), JSON.stringify(data2))
+                success('删除成功 %s', url)
+              })
+        })
     } else {
       err('缺少参数，使用proxys --help查看帮助')
     }
   })
 
 program.parse(process.argv)
+
+
+function showProxy(data){
+    let arr = data.split('\n')
+    let index = arr.length
+    while (index--) {
+      let e = arr[index].toLowerCase()
+      if (e.includes('http_proxy') || e.includes('https_proxy')) {
+        let current  = arr[index].split('=')[1]
+        return current
+      }
+    }
+    return '空'
+}
+  
