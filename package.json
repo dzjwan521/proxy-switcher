@@ -1,6 +1,6 @@
 {
   "name": "proxy-switcher",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "macos上一个代理切换的工具",
   "main": "index.js",
   "bin": {
